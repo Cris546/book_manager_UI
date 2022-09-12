@@ -1,33 +1,43 @@
 import React, { useEffect, useState } from "react";
-
+import { DataGrid } from "@mui/x-data-grid";
 
 
 function DataShowcase(){
+    const columns = [
+        {field: 'id', headerName: 'ID', width: 150},
+        {field: 'title', headerName: 'Title', width: 150},
+        {field: 'type', headerName: 'Type', width: 150},
+        {field: 'genre', headerName: 'Genre', width: 150},
+        {field: 'completed', headerName: 'Completed', width: 150}
+    ];
+
+
     const URL = "http://localhost:8080/books/";
     const [books, setBooks] = useState([]);
     useEffect( () => {
         fetch(URL)
         .then((response) => response.json())
         .then((data) => {
-            console.log(data);
+            // console.log(data);
+            
             setBooks(data);
+            
         })
         .catch((err) => {
             console.log(err.message);
         });
     }, []);
+
+    const rows = books.map(function(book) {
+        return {id: book.id, title: book.book_name, type: book.book_type, genre: book.book_genre, completed: book.book_completed};
+
+    })
+
+    
     return(
-        <div className="data-container">
-            {books.map( (book) => {
-                return(
-                    <div className="book-obj" key={book.id}>
-                        <h2 className="book-title">{book.book_name}</h2>
-                        <h2 className="book-type">{book.book_type}</h2>
-                        <h2 className="book-genre">{book.book_genre}</h2>
-                        <h2 className="book-comp">{book.book_completed}</h2>
-                    </div>
-                )
-            })}
+
+        <div className="data-container" style={{height: 300, width: '100%'}}>
+            <DataGrid rows={rows} columns={columns}/>
         </div>
     )
 }
