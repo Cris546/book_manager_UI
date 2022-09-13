@@ -37,7 +37,7 @@ function DataShowcase(){
     return(
 
         <div className="data-container" style={{height: 300, width: '100%'}}>
-            <DataGrid rows={rows} columns={columns}/>
+            <DataGrid rows={rows} columns={columns} checkboxSelection/>
         </div>
     )
 }
